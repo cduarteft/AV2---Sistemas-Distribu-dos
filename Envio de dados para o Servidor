@@ -1,0 +1,9 @@
+public void bdInsereDados(String nome, String nick, String email, String login, String senha, String cidade, String uf){
+		try{
+			Cadastro cadastro;
+			cadastro = stub.getCadastro();
+			cadastro.Cadastrar(nome, nick, email, login, senha, cidade, uf);
+		}catch (RemoteException e){
+			JOptionPane.showMessageDialog(null,"Erro ao enviar os dados!","ERROR!!",0);
+		}
+	}
