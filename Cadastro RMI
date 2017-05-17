@@ -1,0 +1,37 @@
+package mCliente;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.RemoteException;
+import java.rmi.NotBoundException; 
+import javax.swing.*;
+import Beans.*;
+import Servidor.*;
+public class Cliente {  
+Registry registry;
+Servidor stub;
+boolean status;
+	public Cliente() {
+		status = false;
+	}  
+	public boolean runConexao(){
+		try{          
+			registry = LocateRegistry.getRegistry("localhost", 6000);  
+			stub = (Servidor) registry.lookup ("War20"); 
+			status = true;
+		}catch(RemoteException Re){  
+			JOptionPane.showMessageDialog(null,Re.getMessage(),"ERROR!!",0);  
+		}catch(NotBoundException NBe){   
+			JOptionPane.showMessageDialog(null,NBe.getMessage(),"ERROR!!",0); 
+		} 
+		return status;
+	}
+	public void bdInsereDados(String nome, String nick, String email, String login, String senha, String cidade, String uf){
+		try{
+			Cadastro cadastro;
+			cadastro = stub.getCadastro();
+			cadastro.Cadastrar(nome, nick, email, login, senha, cidade, uf);
+		}catch (RemoteException e){
+			JOptionPane.showMessageDialog(null,"Erro ao enviar os dados!","ERROR!!",0);
+		}
+	}
+}
